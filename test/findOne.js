@@ -70,7 +70,7 @@ describe('GET /messages', function () {
         }, function (created) {
             var message = payload(to.profile.id);
             request({
-                uri: pot.resolve('www', '/apis/v/messages'),
+                uri: pot.resolve('apis', '/v/messages'),
                 method: 'POST',
                 auth: {
                     bearer: user.token
@@ -86,7 +86,7 @@ describe('GET /messages', function () {
                 should.exist(b.body);
                 b.body.should.equal(message.body);
                 should.exist(r.headers['location']);
-                r.headers['location'].should.equal(pot.resolve('www', '/apis/v/messages/' + b.id));
+                r.headers['location'].should.equal(pot.resolve('apis', '/v/messages/' + b.id));
                 created();
             });
         }, done);
@@ -94,7 +94,7 @@ describe('GET /messages', function () {
 
     it('invalid id', function (done) {
         request({
-            uri: pot.resolve('www', '/apis/v/messages/undefined'),
+            uri: pot.resolve('apis', '/v/messages/undefined'),
             method: 'GET',
             auth: {
                 bearer: client.users[0].token
@@ -115,7 +115,7 @@ describe('GET /messages', function () {
 
     it('owner and receiver can access', function (done) {
         request({
-            uri: pot.resolve('www', '/apis/v/messages'),
+            uri: pot.resolve('apis', '/v/messages'),
             method: 'GET',
             auth: {
                 bearer: client.users[0].token
@@ -131,7 +131,7 @@ describe('GET /messages', function () {
             b.length.should.equal(1);
             validateMessages(b);
             request({
-                uri: pot.resolve('www', '/apis/v/messages/' + b[0].id),
+                uri: pot.resolve('apis', '/v/messages/' + b[0].id),
                 method: 'GET',
                 auth: {
                     bearer: client.users[0].token
@@ -145,7 +145,7 @@ describe('GET /messages', function () {
                 should.exist(b);
                 validateMessages([b]);
                 request({
-                    uri: pot.resolve('www', '/apis/v/messages/' + b.id),
+                    uri: pot.resolve('apis', '/v/messages/' + b.id),
                     method: 'GET',
                     auth: {
                         bearer: client.users[2].token
@@ -166,7 +166,7 @@ describe('GET /messages', function () {
 
     it('others cannot access', function (done) {
         request({
-            uri: pot.resolve('www', '/apis/v/messages'),
+            uri: pot.resolve('apis', '/v/messages'),
             method: 'GET',
             auth: {
                 bearer: client.users[0].token
@@ -182,7 +182,7 @@ describe('GET /messages', function () {
             b.length.should.equal(1);
             validateMessages(b);
             request({
-                uri: pot.resolve('www', '/apis/v/messages/' + b[0].id),
+                uri: pot.resolve('apis', '/v/messages/' + b[0].id),
                 method: 'GET',
                 auth: {
                     bearer: client.users[1].token
@@ -204,7 +204,7 @@ describe('GET /messages', function () {
 
     it('can be accessed by the receiver', function (done) {
         request({
-            uri: pot.resolve('www', '/apis/v/messages'),
+            uri: pot.resolve('apis', '/v/messages'),
             method: 'GET',
             auth: {
                 bearer: client.users[0].token
@@ -221,7 +221,7 @@ describe('GET /messages', function () {
             validateMessages(b);
             var message = b[0];
             request({
-                uri: pot.resolve('www', '/apis/v/messages/' + message.id),
+                uri: pot.resolve('apis', '/v/messages/' + message.id),
                 method: 'GET',
                 auth: {
                     bearer: client.users[1].token
@@ -237,7 +237,7 @@ describe('GET /messages', function () {
                 should.exist(b.message);
                 b.code.should.equal(errors.notFound().data.code);
                 request({
-                    uri: pot.resolve('www', '/apis/v/messages/' + message.id),
+                    uri: pot.resolve('apis', '/v/messages/' + message.id),
                     method: 'GET',
                     auth: {
                         bearer: client.users[2].token
@@ -251,7 +251,7 @@ describe('GET /messages', function () {
                     should.exist(b);
                     validateMessages([b]);
                     request({
-                        uri: pot.resolve('www', '/apis/v/messages/' + message.id),
+                        uri: pot.resolve('apis', '/v/messages/' + message.id),
                         method: 'POST',
                         auth: {
                             bearer: client.users[2].token
@@ -268,7 +268,7 @@ describe('GET /messages', function () {
                         }
                         r.statusCode.should.equal(204);
                         request({
-                            uri: pot.resolve('www', '/apis/v/messages/' + message.id),
+                            uri: pot.resolve('apis', '/v/messages/' + message.id),
                             method: 'GET',
                             auth: {
                                 bearer: client.users[0].token
@@ -282,7 +282,7 @@ describe('GET /messages', function () {
                             should.exist(b);
                             validateMessages([b]);
                             request({
-                                uri: pot.resolve('www', '/apis/v/messages/' + message.id),
+                                uri: pot.resolve('apis', '/v/messages/' + message.id),
                                 method: 'GET',
                                 auth: {
                                     bearer: client.users[1].token
@@ -298,7 +298,7 @@ describe('GET /messages', function () {
                                 should.exist(b.message);
                                 b.code.should.equal(errors.notFound().data.code);
                                 request({
-                                    uri: pot.resolve('www', '/apis/v/messages/' + message.id),
+                                    uri: pot.resolve('apis', '/v/messages/' + message.id),
                                     method: 'GET',
                                     auth: {
                                         bearer: client.users[2].token

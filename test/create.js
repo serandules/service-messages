@@ -27,7 +27,7 @@ describe('POST /messages', function () {
 
     it('with no media type', function (done) {
         request({
-            uri: pot.resolve('www', '/apis/v/messages'),
+            uri: pot.resolve('apis', '/v/messages'),
             method: 'POST',
             auth: {
                 bearer: client.users[0].token
@@ -48,7 +48,7 @@ describe('POST /messages', function () {
 
     it('with unsupported media type', function (done) {
         request({
-            uri: pot.resolve('www', '/apis/v/messages'),
+            uri: pot.resolve('apis', '/v/messages'),
             method: 'POST',
             headers: {
                 'Content-Type': 'application/xml'
@@ -72,7 +72,7 @@ describe('POST /messages', function () {
 
     it('without body', function (done) {
       request({
-        uri: pot.resolve('www', '/apis/v/messages'),
+        uri: pot.resolve('apis', '/v/messages'),
         method: 'POST',
         json: {},
         auth: {
@@ -93,7 +93,7 @@ describe('POST /messages', function () {
 
     it('without type', function (done) {
       request({
-        uri: pot.resolve('www', '/apis/v/messages'),
+        uri: pot.resolve('apis', '/v/messages'),
         method: 'POST',
         json: {
           body: 'Body'
@@ -116,7 +116,7 @@ describe('POST /messages', function () {
 
     it('without to', function (done) {
       request({
-        uri: pot.resolve('www', '/apis/v/messages'),
+        uri: pot.resolve('apis', '/v/messages'),
         method: 'POST',
         json: {
           type: 'violation',
@@ -146,7 +146,7 @@ describe('POST /messages', function () {
 
     it('with bigger body', function (done) {
       request({
-        uri: pot.resolve('www', '/apis/v/messages'),
+        uri: pot.resolve('apis', '/v/messages'),
         method: 'POST',
         json: {
           to: '5ddb57c91679b3e1b34379fd',
@@ -171,7 +171,7 @@ describe('POST /messages', function () {
 
     it('valid', function (done) {
         request({
-            uri: pot.resolve('www', '/apis/v/messages'),
+            uri: pot.resolve('apis', '/v/messages'),
             method: 'POST',
             json: data,
             auth: {
@@ -186,7 +186,7 @@ describe('POST /messages', function () {
             should.exist(b.body);
             b.body.should.equal(data.body);
             should.exist(r.headers['location']);
-            r.headers['location'].should.equal(pot.resolve('www', '/apis/v/messages/' + b.id));
+            r.headers['location'].should.equal(pot.resolve('apis', '/v/messages/' + b.id));
             done();
         });
     });
